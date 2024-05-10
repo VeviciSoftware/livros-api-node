@@ -1,4 +1,15 @@
 import express from "express";
+import conectaNaDatabase from "./config/dbConnect.js";
+
+const conexao = await conectaNaDatabase();
+
+conexao.on("error", (erro) => {
+    console.error("Erro ao conectar no banco de dados", erro)
+});
+
+conexao.once("open", () => {
+    console.log("Conectado no banco de dados");
+})
 
 const app = express();
 app.use(express.json()); //Middleware para o express entender JSON
@@ -71,5 +82,5 @@ app.delete("/livros/:id", (req, res) => {
 
 export default app;
 
-// mongodb+srv://admin:<password>@cluster0.g7mhgbt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
 
