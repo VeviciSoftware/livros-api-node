@@ -1,6 +1,6 @@
 import express from "express";
 import conectaNaDatabase from "./config/dbConnect.js";
-import livro from "./models/Livro.js";
+import routes from "./routes/index.js";
 
 const conexao = await conectaNaDatabase();
 
@@ -13,32 +13,13 @@ conexao.once("open", () => {
 })
 
 const app = express();
-app.use(express.json()); //Middleware para o express entender JSON
+routes(app);
 
-
-app.get("/", (req, res) => {
-    res.status(200).send("Curso de Node.js");
-});
-
-app.get("/livros", async (req, res) => {
-    const listaLivros = await livro.find({});
-    res.status(200).json(listaLivros);
-});
-
-app.get("/livros/:id", (req, res) => {
-    const id = +req.params.id;
-    const livro = buscaLivro(id);
-    if (!livro) {
-        res.status(404).send("Livro não encontrado");
-    }
-    res.status(200).json(livro);
-});
-
-app.post("/livros", (req, res) => {
-    const livro = req.body;
-    livros.push(livro);
-    res.status(201).send("Livro adicionado com sucesso");
-});
+// app.post("/livros", (req, res) => {
+//     const livro = req.body;
+//     livros.push(livro);
+//     res.status(201).send("Livro adicionado com sucesso");
+// });
 
 app.put("/livros/:id", (req, res) => {
     const index = buscaLivro(+req.params.id);
