@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { autorSchema } from "./Autor.js";
 
 const livroSchema = new mongoose.Schema({
     titulo: {
@@ -17,6 +18,10 @@ const livroSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    autor: {
+        type: autorSchema,
+        required: true
+    }
 }, { versionKey: false });
 
 const livro = mongoose.model("Livros", livroSchema);
