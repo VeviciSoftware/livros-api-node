@@ -20,7 +20,8 @@ const livroSchema = new mongoose.Schema({
     },
     autor: {
         type: autorSchema,
-        required: true
+        required: true,
+        ref: 'autores'
     }
 }, { versionKey: false });
 

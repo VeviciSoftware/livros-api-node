@@ -22,6 +22,16 @@ class LivroController {
     }
   };
 
+  static async buscarLivrosPorAutor(req, res) {
+    const autorNome = req.query.autor;
+    try {
+      const autorEncontrado = await autor.find({ nome: autorNome });
+      res.status(200).json(autorEncontrado);
+    } catch (error) {
+      
+    }
+  }
+
   static async cadastrarLivro (req, res) {
     const novoLivro = req.body;
     try {
