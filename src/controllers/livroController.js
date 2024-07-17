@@ -3,7 +3,7 @@ import { autor } from "../models/Autor.js";
 
 class LivroController {
 
-  static async listarLivros (req, res) {
+  static listarLivros = async (req, res) => {
     try {
       const listaLivros = await livro.find({});
       res.status(200).json(listaLivros);
@@ -12,7 +12,7 @@ class LivroController {
     }
   };
 
-  static async listarLivroPorId (req, res) {
+  static listarLivroPorId = async (req, res) => {
     try {
       const id = req.params.id;
       const livroEncontrado = await livro.findById(id);
@@ -22,17 +22,17 @@ class LivroController {
     }
   };
 
-  static async buscarLivrosPorAutor(req, res) {
+  static buscarLivrosPorAutor = async (req, res) => {
     const autorNome = req.query.autor;
     try {
       const autorEncontrado = await autor.find({ nome: autorNome });
       res.status(200).json(autorEncontrado);
     } catch (error) {
-      
+      res.status(500).json({ message: `${error.message} - falha na requisição` });
     }
   }
 
-  static async cadastrarLivro (req, res) {
+  static cadastrarLivro = async (req, res) => {
     const novoLivro = req.body;
     try {
       const autorEncontrado = await autor.findById(novoLivro.autor);
@@ -46,7 +46,7 @@ class LivroController {
     }
   }
 
-  static async atualizarLivro (req, res) {
+  static atualizarLivro = async (req, res) => {
     try {
       const id = req.params.id;
       await livro.findByIdAndUpdate(id, req.body);
@@ -56,7 +56,7 @@ class LivroController {
     }
   };
 
-  static async excluirLivro (req, res) {
+  static excluirLivro = async (req, res) => {
     try {
       const id = req.params.id;
       await livro.findByIdAndDelete(id);

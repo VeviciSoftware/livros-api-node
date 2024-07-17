@@ -2,7 +2,7 @@ import { autor }  from "../models/Autor.js";
 
 class AutorController {
 
-  static async listarAutores (req, res) {
+  static listarAutores = async (req, res) => {
     try {
       const listaAutores = await autor.find({});
       res.status(200).json(listaAutores);
@@ -11,7 +11,7 @@ class AutorController {
     }
   };
 
-  static async listarAutorPorId (req, res) {
+  static listarAutorPorId = async (req, res) => {
     try {
       const id = req.params.id;
       const autorEncontrado = await livro.findById(id);
@@ -21,7 +21,7 @@ class AutorController {
     }
   };
 
-  static async cadastrarAutor (req, res) {
+  static cadastrarAutor = async (req, res) => {
     try {
       const novoAutor = await autor.create(req.body);
       res.status(201).json({ message: "Criado com sucesso", autor: novoAutor });
@@ -30,7 +30,7 @@ class AutorController {
     }
   }
 
-  static async atualizarAutor (req, res) {
+  static atualizarAutor = async (req, res) => {
     try {
       const id = req.params.id;
       await autor.findByIdAndUpdate(id, req.body);
@@ -40,7 +40,7 @@ class AutorController {
     }
   };
 
-  static async excluirAutor (req, res) {
+  static excluirAutor = async (req, res) => {
     try {
       const id = req.params.id;
       await autor.findByIdAndDelete(id);
