@@ -14,15 +14,13 @@ class LivroController {
 
   static listarLivroPorId = async (req, res, next) => {
     try {
-      throw new Error();
-
-      const id = req.params.id;
-      const livroEncontrado = await livro.findById(id);
-      res.status(200).json(livroEncontrado);
+        const id = req.params.id;
+        const livroEncontrado = await livro.findById(id);
+        res.status(200).json(livroEncontrado);
     } catch (erro) {
-      next(erro);
+        next(erro);
     }
-  };
+};
 
   static buscarLivrosPorAutor = async (req, res, next) => {
     const autorNome = req.query.autor;
