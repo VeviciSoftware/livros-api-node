@@ -23,6 +23,13 @@ const livroSchema = new mongoose.Schema({
         required: [true, "O número de páginas do livro é obrigatório."],
         min: [10, "O livro deve ter no mínimo 1 página."],
         max: [5000, "O livro deve ter no máximo 2000 páginas."]
+        // Uma outra forma de fazer isso é com o validate.
+        // validate: {
+        //     validator: (valor) => {
+        //         return valor > 10 && valor < 5000;
+        //     },
+        //     message: "O livro deve ter entre 10 e 5000 páginas."
+        // }
     },
     autor: {
         type: autorSchema,
@@ -33,4 +40,4 @@ const livroSchema = new mongoose.Schema({
 
 const livro = mongoose.model("Livros", livroSchema);
 
-export default livro;
+export { livro };
