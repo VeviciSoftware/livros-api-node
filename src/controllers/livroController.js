@@ -43,6 +43,27 @@ class LivroController {
     }
   }
 
+  static buscarLivrosPorFiltro = async (req, res, next) => {
+    try {
+      const { editora, titulo} = req.query;
+
+      const filtro = {
+        editora: editora,
+        titulo: titulo
+      }
+
+      const livrosFiltrados = await livro.find(filtro);
+
+      if(livrosFiltrados.length === 0) {
+        next(new NaoEncontrado("Livro não encontrado."));
+      } else {
+        res.status(200).json(livrosFiltrados);
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static cadastrarLivro = async (req, res, next) => {
     const novoLivro = req.body;
     try {
