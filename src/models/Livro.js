@@ -1,43 +1,37 @@
 import mongoose from "mongoose";
-import { autorSchema } from "./Autor.js";
 
-const livroSchema = new mongoose.Schema({
-    titulo: {
+const livroSchema = new mongoose.Schema(
+    {
+      id: {type: String},
+      titulo: {
         type: String,
-        required: [true, "O título do livro é obrigatório."]
-    },
-    editora: {
+        required: [true, "O título do livro é obrigatório"]
+      },
+      autor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "autores",
+        required: [true, "O(a) autor(a) é obrigatório"]
+      },
+      editora: {
         type: String,
-        required: [true, "A editora do livro é obrigatória."],
+        required: [true, "A editora é obrigatória"],
         enum: {
-            values: ["Moderna", "Companhia das Letras", "Saraiva", "Abril"],
-            message: "Editora `{VALUE}` inválida. Selecione uma das opções disponíveis."
+          values: ["Casa do código", "Alura"],
+          message: "A editora {VALUE} não é um valor permitido."
         }
-    },
-    preco: {
+      },
+      numeroPaginas: {
         type: Number,
-        required: [true, "O preço do livro é obrigatório."]
-    },
-    paginas: {
-        type: Number,
-        required: [true, "O número de páginas do livro é obrigatório."],
-        min: [10, "O livro deve ter no mínimo 1 página."],
-        max: [5000, "O livro deve ter no máximo 2000 páginas."]
-        // Uma outra forma de fazer isso é com o validate.
-        // validate: {
-        //     validator: (valor) => {
-        //         return valor > 10 && valor < 5000;
-        //     },
-        //     message: "O livro deve ter entre 10 e 5000 páginas."
-        // }
-    },
-    autor: {
-        type: autorSchema,
-        required: [true, "O autor do livro é obrigatório."],
-        ref: 'autores'
+        validate: {
+          validator: (valor) => {
+            return valor >= 10 && valor <= 5000;
+          },
+          message: "O número de páginas deve estar entre 10 e 5000. Valor fornecido: {VALUE}"
+        }
+      }
     }
-}, { versionKey: false });
-
-const livro = mongoose.model("Livros", livroSchema);
-
-export { livro };
+  );
+  
+  const livros= mongoose.model("livros", livroSchema);
+  
+  export default livros;
