@@ -34,37 +34,6 @@ class LivroController {
     }
   };
 
-  static buscarLivrosPorAutor = async (req, res, next) => {
-    const autorNome = req.query.autor;
-    try {
-      const autorEncontrado = await autor.find({ nome: autorNome });
-
-      if (autorEncontrado.length === 0) {
-        next(new NaoEncontrado("Autor não encontrado."));
-      }
-
-      res.status(200).json(autorEncontrado);
-    } catch (erro) {
-      next(erro);
-    }
-  }
-
-  static buscarLivrosPorFiltro = async (req, res, next) => {
-    try {
-      const filtro = await processaFiltrosDeBusca(req.query);
-
-      const livrosFiltrados = await livro.find(filtro);
-
-      if (livrosFiltrados.length === 0) {
-        return next(new NaoEncontrado("Livro não encontrado."));
-      } else {
-        return res.status(200).json(livrosFiltrados);
-      }
-    } catch (error) {
-      return next(error);
-    }
-  }
-
   static cadastrarLivro = async (req, res, next) => {
     try {
       let livro = new livros(req.body);
@@ -126,7 +95,6 @@ class LivroController {
       next(erro);
     }
   };
-
 }
 
 async function processaBusca(parametros) {
@@ -145,6 +113,7 @@ async function processaBusca(parametros) {
   if (maxPaginas) busca.numeroPaginas.$lte = maxPaginas;
 
   if (nomeAutor) {
+    console.log(`Buscando autor com nome: ${nomeAutor}`);
     const autor = await autores.findOne({ nome: nomeAutor });
 
     if (autor !== null) {
@@ -156,7 +125,5 @@ async function processaBusca(parametros) {
 
   return busca;
 }
-
-
 
 export default LivroController;
